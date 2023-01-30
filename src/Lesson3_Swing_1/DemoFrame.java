@@ -1,5 +1,7 @@
 package Lesson3_Swing_1;
 
+import javax.swing.table.DefaultTableModel;
+
 public class DemoFrame extends javax.swing.JFrame {
 
     public DemoFrame() {
@@ -23,6 +25,7 @@ public class DemoFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         rdoNu = new javax.swing.JRadioButton();
         ckbDangKy = new javax.swing.JCheckBox();
+        btnLoadTable = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSV = new javax.swing.JTable();
@@ -66,6 +69,13 @@ public class DemoFrame extends javax.swing.JFrame {
 
         ckbDangKy.setText("Đăng ký học");
 
+        btnLoadTable.setText("Load Table");
+        btnLoadTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadTableActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -101,9 +111,11 @@ public class DemoFrame extends javax.swing.JFrame {
                         .addGap(19, 19, 19))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnDoc)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(52, 52, 52)
                         .addComponent(btnReset)
-                        .addGap(109, 109, 109))))
+                        .addGap(56, 56, 56)
+                        .addComponent(btnLoadTable)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,7 +138,8 @@ public class DemoFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDoc)
-                    .addComponent(btnReset))
+                    .addComponent(btnReset)
+                    .addComponent(btnLoadTable))
                 .addContainerGap())
         );
 
@@ -134,15 +147,17 @@ public class DemoFrame extends javax.swing.JFrame {
 
         tblSV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Họ tên", "Giới tính", "C/Ngành"
             }
         ));
+        tblSV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSVMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSV);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -212,6 +227,32 @@ public class DemoFrame extends javax.swing.JFrame {
         this.rdoNam.setSelected(true);
     }//GEN-LAST:event_btnResetActionPerformed
 
+    private void btnLoadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadTableActionPerformed
+        String hoTen = this.txtHoTen.getText();
+        String cNganh = this.cbbCNganh.getSelectedItem().toString();
+        String gt = this.rdoNam.isSelected() == true ? "Nam" : "Nu";
+        
+        DefaultTableModel dtm = (DefaultTableModel) this.tblSV.getModel();
+        Object[] rowData = { hoTen, gt, cNganh };
+        dtm.addRow(rowData);
+    }//GEN-LAST:event_btnLoadTableActionPerformed
+
+    private void tblSVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSVMouseClicked
+        int row = this.tblSV.getSelectedRow();
+        if (row == -1) {
+            return ;
+        }
+        
+        
+        String hoTen = this.tblSV.getValueAt(row, 0).toString();
+        String gt = this.tblSV.getValueAt(row, 1).toString();
+        String cNganh = this.tblSV.getValueAt(row, 2).toString();
+        
+        System.out.println(hoTen);
+        System.out.println(gt);
+        System.out.println(cNganh);
+    }//GEN-LAST:event_tblSVMouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -246,6 +287,7 @@ public class DemoFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDoc;
+    private javax.swing.JButton btnLoadTable;
     private javax.swing.JButton btnReset;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbCNganh;
