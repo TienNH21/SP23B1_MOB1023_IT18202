@@ -59,8 +59,18 @@ public class QLProductFrame extends javax.swing.JFrame {
         jLabel2.setText("Price");
 
         btnThem.setText("Thêm");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
 
         btnSua.setText("Sửa");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
 
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
@@ -203,6 +213,58 @@ public class QLProductFrame extends javax.swing.JFrame {
         this.loadTable();
         this.clear();
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private Product getForm()
+    {
+        // B1: Đọc giá trị từ form
+        String name = this.txtName.getText();
+        String priceStr = this.txtPrice.getText();
+
+        // B2: Kiểm tra form
+        if (name.trim().equals("") || priceStr.trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Không được để trống");
+            return null;
+        }
+        
+        // B3: Khởi tạo đối tượng
+        double price = Double.parseDouble(priceStr);
+        Product p = new Product(name, price);
+        
+        return p;
+    }
+    
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        Product p = this.getForm();
+        if (p == null) {
+            return ;
+        }
+
+        // B4: Thêm vào list
+        this.prodService.insert(p);
+        
+        // B5: Load lại JTable
+        this.loadTable();
+        this.clear();
+        JOptionPane.showMessageDialog(this, "Thêm thành công");
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        int row = this.tblProduct.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Chọn 1 dòng để sửa");
+            return ;
+        }
+        
+        Product p = this.getForm();
+        if (p == null) {
+            return ;
+        }
+        
+        this.prodService.update(row, p);
+        this.loadTable();
+        this.clear();
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
+    }//GEN-LAST:event_btnSuaActionPerformed
 
     private void clear()
     {
