@@ -7,4 +7,5 @@ public interface IProductService {
     public void update(int viTri, Product p);
     public void delete(int viTri);
     public ArrayList<Product> select();
+    public void setList(ArrayList<Product> ds);
 }
